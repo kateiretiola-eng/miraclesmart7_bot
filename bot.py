@@ -15,7 +15,15 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
         "Hello! I am a Gemini-powered AI bot. Send me a message."
     )
+async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text(
+        """
+Available Commands:
 
+/start - Start the bot
+/help - Show available commands
+        """
+    )
 async def chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
     user_message = update.message.text
