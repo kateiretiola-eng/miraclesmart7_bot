@@ -9,17 +9,25 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 genai.configure(api_key=GEMINI_API_KEY)
 model = genai.GenerativeModel("gemini-2.5-flash")
 
+user_chats = {}
+
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
         "Hello! I am a Gemini-powered AI bot. Send me a message."
     )
 
 async def chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user_id = update.effective_user.id
     user_message = update.message.text
 
     try:
-        response = model.generate_content(user_message)
+        if user_id not in user_chats:
+            user_chats[user_id] = model.start_chat(history=[])
+
+        response = user_chats[user_id].send_message(user_message)
+
         await update.message.reply_text(response.text)
+
     except Exception as e:
         await update.message.reply_text(f"Error: {str(e)}")
 
