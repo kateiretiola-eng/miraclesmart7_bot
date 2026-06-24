@@ -16,14 +16,21 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "Hello! I am a Gemini-powered AI bot. Send me a message."
     )
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+
     await update.message.reply_text(
         """
 Available Commands:
 
 /start - Start the bot
+
 /help - Show available commands
-        """
-        async def reset(update: Update, context: ContextTypes.DEFAULT_TYPE):
+
+/reset - Reset the conversation
+"""
+    )
+
+
+async def reset(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     user_id = update.effective_user.id
 
@@ -32,7 +39,6 @@ Available Commands:
         del user_chats[user_id]
 
     await update.message.reply_text(
-
         "Memory cleared. Starting a new conversation."
     )
 async def chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
