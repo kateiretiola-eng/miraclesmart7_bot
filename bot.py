@@ -23,6 +23,17 @@ Available Commands:
 /start - Start the bot
 /help - Show available commands
         """
+        async def reset(update: Update, context: ContextTypes.DEFAULT_TYPE):
+
+    user_id = update.effective_user.id
+
+    if user_id in user_chats:
+
+        del user_chats[user_id]
+
+    await update.message.reply_text(
+
+        "Memory cleared. Starting a new conversation."
     )
 async def chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
@@ -44,6 +55,7 @@ def main():
 
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("help", help_command))
+    app.add_handler(CommandHandler("reset", reset))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, chat))
 
     print("Bot is running...")
